@@ -28,6 +28,11 @@ public class activosController {
         return "index";
     }
 
+    @GetMapping("/login")
+    public String login() {
+        return "login";
+    }
+
     @GetMapping("/activo/agregar")
     public String formActivos(Model model) {
         activos activo = new activos();

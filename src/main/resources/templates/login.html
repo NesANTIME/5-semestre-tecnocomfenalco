@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SecureGuard - Inicio de Sesión</title>
+    <link rel="stylesheet" th:href="@{/css/login.css}">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-box">
+            <div class="logo">
+                <div class="shield-icon">🛡️</div>
+                <h1>SecureGuard</h1>
+                <p class="tagline">Empresa de Seguridad Profesional</p>
+                <p class="subtitle">Sistema de Gestión de Activos</p>
+            </div>
+            
+           <form th:action="@{/login}" method="post">
+                <div class="form-group">
+                    <label for="username">Usuario</label>
+                    <input type="text" id="username" name="username" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Contraseña</label>
+                    <input type="password" id="password" name="password" required>
+                </div>
+
+                <!-- CSRF token OBLIGATORIO -->
+                <input type="hidden"
+                    th:name="${_csrf.parameterName}"
+                    th:value="${_csrf.token}" />
+
+                <button type="submit" class="btn-login">
+                    Iniciar Sesión
+                </button>
+            </form>
+
+            
+            <div class="login-footer">
+                <p class="footer-text">© 2024 SecureGuard. Todos los derechos reservados.</p>
+                <p class="footer-info">Para soporte técnico: soporte@secureguard.com</p>
+            </div>
+        </div>
+        
+        <div class="info-section">
+            <h2>Bienvenido a SecureGuard</h2>
+            <p>Sistema integral de gestión de activos de seguridad</p>
+            <div class="features">
+                <div class="feature">
+                    <span class="feature-icon">📹</span>
+                    <h3>Monitoreo 24/7</h3>
+                    <p>Control total de cámaras y sistemas</p>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">🔐</span>
+                    <h3>Acceso Seguro</h3>
+                    <p>Gestión de controles de acceso</p>
+                </div>
+                <div class="feature">
+                    <span class="feature-icon">📊</span>
+                    <h3>Reportes Detallados</h3>
+                    <p>Análisis de activos en tiempo real</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:src="@{/js/login.js}"></script>
+</body>
+</html>
