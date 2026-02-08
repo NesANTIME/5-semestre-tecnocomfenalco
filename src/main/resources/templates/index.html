@@ -1,0 +1,276 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Activos</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: linear-gradient(135deg, #2c3e50 0%, #1a252f 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            background: #f5f5f5;
+            border-radius: 12px;
+            box-shadow: 0 8px 24px rgba(0, 0, 0, 0.3);
+            overflow: hidden;
+        }
+
+        .banner {
+            background: linear-gradient(135deg, #1a237e 0%, #283593 100%);
+            color: white;
+            padding: 40px;
+            text-align: center;
+        }
+
+        .banner h1 {
+            font-size: 2.5rem;
+            font-weight: 600;
+            letter-spacing: 1px;
+        }
+
+        .content {
+            padding: 40px;
+        }
+
+        .header-actions {
+            margin-bottom: 30px;
+            display: flex;
+            justify-content: flex-end;
+        }
+
+        .btn-add {
+            background: #1a237e;
+            color: white;
+            padding: 12px 24px;
+            border: none;
+            border-radius: 8px;
+            font-size: 1rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            text-decoration: none;
+            display: inline-block;
+        }
+
+        .btn-add:hover {
+            background: #0d1642;
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(26, 35, 126, 0.3);
+        }
+
+        .table-container {
+            overflow-x: auto;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: white;
+        }
+
+        thead {
+            background: #1a237e;
+            color: white;
+        }
+
+        th {
+            padding: 16px;
+            text-align: left;
+            font-weight: 600;
+            font-size: 0.95rem;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 16px;
+            border-bottom: 1px solid #e0e0e0;
+            color: #333;
+        }
+
+        tbody tr {
+            transition: background 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background: #f8f9fa;
+        }
+
+        .nivel-badge {
+            display: inline-block;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+        }
+
+        .nivel-critico {
+            background: #ffebee;
+            color: #c62828;
+        }
+
+        .nivel-alto {
+            background: #fff3e0;
+            color: #e65100;
+        }
+
+        .nivel-medio {
+            background: #fff9c4;
+            color: #f57f17;
+        }
+
+        .nivel-bajo {
+            background: #e8f5e9;
+            color: #2e7d32;
+        }
+
+        .nivel-informativo {
+            background: #e3f2fd;
+            color: #1565c0;
+        }
+
+        .actions {
+            display: flex;
+            gap: 8px;
+            justify-content: center;
+        }
+
+        .btn-edit, .btn-delete {
+            padding: 8px 16px;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.9rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .btn-edit {
+            background: #1a237e;
+            color: white;
+        }
+
+        .btn-edit:hover {
+            background: #0d1642;
+            transform: scale(1.05);
+        }
+
+        .btn-delete {
+            background: #c62828;
+            color: white;
+        }
+
+        .btn-delete:hover {
+            background: #8e0000;
+            transform: scale(1.05);
+        }
+
+        .no-data {
+            text-align: center;
+            padding: 40px;
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .banner h1 {
+                font-size: 2rem;
+            }
+
+            .content {
+                padding: 24px;
+            }
+
+            table {
+                font-size: 0.85rem;
+            }
+
+            th, td {
+                padding: 10px;
+            }
+
+            .btn-edit, .btn-delete {
+                padding: 6px 10px;
+                font-size: 0.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="banner">
+            <h1>Lista de Activos</h1>
+        </div>
+
+        <div class="content">
+            <div class="header-actions">
+                <a th:href="@{/activo/agregar}" class="btn-add">+ Añadir Activo</a>
+            </div>
+
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Nombre</th>
+                            <th>Versión/Port</th>
+                            <th>Descripción</th>
+                            <th>Nivel</th>
+                            <th>CVE</th>
+                            <th>Recomendacion</th>
+                            <th>Acciones</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        <tr th:each="activo : ${activos}">
+                            <td th:text="${activo.id}"></td>
+                            <td th:text="${activo.nombre}"></td>
+                            <td th:text="${activo.version_port}"></td>
+                            <td th:text="${activo.descripcion}"></td>
+                            <td>
+                                <span class="nivel-badge" th:classappend="${'nivel-' + #strings.toLowerCase(activo.nivel_riesgo)}"
+                                    th:text="${activo.nivel_riesgo}">
+                                </span>
+                            </td>
+                            <td>
+                                <a th:href="'https://www.cve.org/CVERecord?id=' + ${activo.code_cve}"
+                                th:text="${activo.code_cve}">
+                                </a>
+                            </td>
+                            <td th:text="${activo.recomendacion}"></td>
+                            <td class="actions">
+                                <a class="btn-edit" th:href="@{/activo/editar/{id}(id=${activo.id})}">Editar</a>
+                                <a class="btn-delete" th:href="@{/activo/eliminar/{id}(id=${activo.id})}" 
+                                    onclick="return confirm('¿Estás seguro de que deseas eliminar este activo?');">
+                                    Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+
+    <p style="color: #666; text-align: center; margin-top: 100%;">Juan Andres Carmona Palomino</p>
+    <p style="color: #666; text-align: center;">Jose Manuel Barraza Contreras</p>
+    <p style="color: #666; text-align: center;">Juan Pablo Hernandez Tatis</p>
+    <p style="color: #666; text-align: center;">Esteban Josue Lopez Ortega</p>
+</body>
+</html>
